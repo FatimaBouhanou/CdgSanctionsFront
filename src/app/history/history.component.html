@@ -1,0 +1,25 @@
+<div class="history-page">
+    <div *ngIf="message" class="message">
+      {{ message }}
+    </div>
+  
+    <div class="history-header">
+      <h1>Import History</h1>
+      <!-- FORM TO ADD AND EDIT history -->
+      <div class="add-cat">
+        <input
+          type="text"
+          [(ngModel)]="historyName"
+          placeholder="history name"
+        />
+        
+    </div>
+  
+    <!-- DISPLAY THE HISTORIES -->
+    <ul *ngIf="histories.length > 0" class="history-list">
+      <li *ngFor="let history of histories" class="history-item">
+        <span>{{ history.title }}</span>
+       
+      </li>
+    </ul>
+  </div>
