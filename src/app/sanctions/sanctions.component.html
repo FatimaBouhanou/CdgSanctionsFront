@@ -1,21 +1,21 @@
 <div class="history-page">
     <div *ngIf="message" class="message">
-      {{ message }}
+   
     </div>
   
     <div class="history-header">
-      <h1>Import History</h1>
+      <h1>Sanctions list</h1>
       <!-- FORM TO ADD AND EDIT history -->
       <div class="add-cat" *ngIf="!loading">
         <div class="search-container">
           <input
             type="text"
-            [(ngModel)]="historyName"
-            (ngModelChange)="searchHistory()"
+           
+          
             placeholder="Search by history name"
             class="search-input"
           />
-          <select [(ngModel)]="selectedFileType" (ngModelChange)="searchHistory()" class="file-type-select">
+          <select class="file-type-select">
             <option value="">All Types</option>
             <option *ngFor="let type of uniqueFileTypes" [value]="type">{{ type }}</option>
           </select>
@@ -32,7 +32,7 @@
           <tr>
             <th>File Name</th>
             <th>Import Date</th>
-            <th>File Size MB</th>
+            <th>File Size</th>
             <th>Number of Lines</th>
             <th>File Type</th>
           </tr>
@@ -41,7 +41,7 @@
           <tr *ngFor="let history of histories">
             <td>{{ history.fileName }}</td>
             <td>{{ history.importDate }}</td>
-            <td>{{ history.fileSize }} </td>
+            <td>{{ history.fileSize }} KB</td>
             <td>{{ history.numberOfLines }}</td>
             <td>{{ history.fileType }}</td>
           </tr>
