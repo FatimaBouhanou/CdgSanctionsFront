@@ -38,13 +38,13 @@
 .sanctions-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 18px;
+  font-size: 16px;
   color: #2f4f4f;
 }
 
 .sanctions-table th,
 .sanctions-table td {
-  padding: 12px 20px;
+  padding: 8px 15px;
   border: 1px solid #e0e0e0;
   text-align: left;
 }
@@ -79,4 +79,11 @@
   font-size: 16px;
   border: 1px solid #ddd;  /* Add this line to give the dropdown a border */
   border-radius: 5px;
+}
+.pagination {
+  display: flex;
+  justify-content: center;  /* Centers the pagination */
+  align-items: center;
+  margin-top: 20px;         /* Adds spacing above the pagination */
+  gap: 10px;                /* Space between buttons and text */
 }

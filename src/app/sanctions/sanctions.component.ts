@@ -38,7 +38,7 @@ export class SanctionsComponent implements OnInit {
   message: string = '';
   loading: boolean = true;
   currentPage: number = 1;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 10;
   selectedFileType: string = ''; 
 
     uniqueFileTypes: string[] = [];  // Array to hold unique file types
@@ -47,7 +47,7 @@ export class SanctionsComponent implements OnInit {
 
   ngOnInit() {
     // Load all sanctions when component initializes
-    this.getAllSanctions();
+    this.searchSanctions();
    
   }
 
@@ -79,22 +79,15 @@ export class SanctionsComponent implements OnInit {
 
 
   //search sanctions
- searchSanctions() {
-  const term = this.searchTerm.toLowerCase().trim();
-  const type = this.selectedFileType.toLowerCase().trim();
-
-  this.sanctions = this.originalSanctions.filter(sanction =>
-    (term
-      ? sanction.name?.toLowerCase().includes(term) ||
-        sanction.aliases?.toLowerCase().includes(term)
-      : true) &&
-    (type
-      ? sanction.type?.toLowerCase() === type
-      : true)
-  );
-
-  this.currentPage = 1;
-}
+searchSanctions() {
+    this.loading = true;
+    this.apiService.getSanctionsByName(this.searchTerm).subscribe(data => {
+      this.sanctions = data;
+      this.originalSanctions = data;
+      this.uniqueSanctions = Array.from(new Set(data.map((e: any) => e.sanctions)));
+      this.loading = false;
+    });
+  }
 
 
   //messages
