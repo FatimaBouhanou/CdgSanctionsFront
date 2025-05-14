@@ -1,6 +1,13 @@
 .sanctions-page {
   padding: 20px;
+  width: 100%;  
+  box-sizing: border-box; 
 }
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
 
 .sanctions-header {
   margin-left: 12px;

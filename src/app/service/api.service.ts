@@ -25,5 +25,8 @@ export class ApiService {
       params: { name }
     });
   }
+  getAllSanctions(): Observable<any> {
+    return this.http.get(`${this.sanctionBaseUrl}/sanctions/list`);
+  }
 
 }

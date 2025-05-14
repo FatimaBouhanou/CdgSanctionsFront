@@ -7,72 +7,58 @@
 <br><br>
     <!-- Filters section (search and select) always visible -->
     <div class="filters">
-      <input
-        type="text"
-        [(ngModel)]="searchTerm"
-        (ngModelChange)="searchSanctions()"
-        placeholder="Search by name or aliases"
-        class="search-input"
-      />
+ <input
+  type="text"
+  [(ngModel)]="searchTerm"
+  (ngModelChange)="searchSanctions()"
+  placeholder="Search by name or aliases"
+/>
 
-      <select
-        [(ngModel)]="selectedSanction"
-        (ngModelChange)="searchSanctions()"
-        class="sanction-select"
-      >
-        <option value="">All Sanctions</option>
-        <option *ngFor="let s of uniqueSanctions" [value]="s">{{ s }}</option>
-      </select>
+<select
+  [(ngModel)]="selectedFileType"
+  (ngModelChange)="searchSanctions()"
+>
+  <option value="">All Types</option>
+  <option *ngFor="let type of uniqueFileTypes" [value]="type">{{ type }}</option>
+</select>
+
+
 
       
     </div>
   </div>
 
+ <div class="table-wrapper">
   <!-- Table layout that is always visible, but shows 'No sanctions found' when no data -->
   <table class="sanctions-table">
     <thead>
       <tr>
         <th>ID</th>
         <th>Schema</th>
-        <th>Name</th>
+        <th>Nom</th>
         <th>Aliases</th>
-        <th>Birth Date</th>
-        <th>Countries</th>
-        <th>Addresses</th>
+        <th>Date de naissance</th>
         <th>Identifiers</th>
-        <th>Sanctions</th>
-        <th>Phones</th>
-        <th>Emails</th>
-        <th>Dataset</th>
-        <th>First Seen</th>
-        <th>Last Seen</th>
-        <th>Last Change</th>
+      
+       
       </tr>
     </thead>
     <tbody>
       <!-- If there are any sanctions, display them in rows -->
-      <tr *ngFor="let entity of paginatedHistories">
+      <tr *ngFor="let entity of paginatedSanctions">
         <td>{{ entity.id }}</td>
         <td>{{ entity.schema }}</td>
         <td>{{ entity.name }}</td>
         <td>{{ entity.aliases }}</td>
         <td>{{ entity.birth_date }}</td>
-        <td>{{ entity.countries }}</td>
-        <td>{{ entity.addresses }}</td>
         <td>{{ entity.identifiers }}</td>
-        <td>{{ entity.sanctions }}</td>
-        <td>{{ entity.phones }}</td>
-        <td>{{ entity.emails }}</td>
-        <td>{{ entity.dataset }}</td>
-        <td>{{ entity.first_seen }}</td>
-        <td>{{ entity.last_seen }}</td>
-        <td>{{ entity.last_change }}</td>
+       
       </tr>
     </tbody>
   </table>
-
+</div>
   <!-- If no data is found, show this message, but still display the table layout and pagination -->
-  <div *ngIf="paginatedHistories.length === 0 && !loading" class="no-data">
+  <div *ngIf="paginatedSanctions.length === 0 && !loading" class="no-data">
     No sanctions found.
   </div>
 

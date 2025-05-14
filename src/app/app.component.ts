@@ -27,7 +27,14 @@ export class AppComponent {
   ) {}
 
   toggleSidebar() {
-    this.isSidebarClosed = !this.isSidebarClosed;
-  }
+  this.isSidebarClosed = !this.isSidebarClosed;
+
+  // Optional: force resize to help table reflow
+  setTimeout(() => {
+    window.dispatchEvent(new Event('resize'));
+    this.cdr.detectChanges();
+  }, 300); // match transition duration
+}
+
 }
 

@@ -19,6 +19,7 @@ interface SanctionedEntity {
   first_seen: string;
   last_seen: string;
   last_change: string;
+  type: string;
 }
 
 @Component({
@@ -29,8 +30,8 @@ interface SanctionedEntity {
   styleUrls: ['./sanctions.component.scss']
 })
 export class SanctionsComponent implements OnInit {
-  histories: SanctionedEntity[] = [];
-  originalHistories: SanctionedEntity[] = [];
+  sanctions: SanctionedEntity[] = [];
+  originalSanctions: SanctionedEntity[] = [];
   searchTerm: string = ''; // Search term
   selectedSanction: string = '';
   uniqueSanctions: string[] = [];
@@ -38,36 +39,78 @@ export class SanctionsComponent implements OnInit {
   loading: boolean = true;
   currentPage: number = 1;
   itemsPerPage: number = 5;
+  selectedFileType: string = ''; 
+
+    uniqueFileTypes: string[] = [];  // Array to hold unique file types
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
     // Load all sanctions when component initializes
-    this.searchSanctions();
+    this.getAllSanctions();
+   
   }
 
-  searchSanctions() {
-    this.loading = true;
-    this.apiService.getSanctionsByName(this.searchTerm).subscribe(data => {
-      this.histories = data;
-      this.originalHistories = data;
-      this.uniqueSanctions = Array.from(new Set(data.map((e: any) => e.sanctions)));
+  //get all sanctions
+ getAllSanctions(): void {
+  this.loading = true;
+  this.apiService.getAllSanctions().subscribe({
+    next: (res: any) => {
+      const data = res.status === 200 ? res.categories : res;
+
+      this.originalSanctions = data;
+      this.sanctions = [...this.originalSanctions]; // show all initially
+
+      // Populate dropdown
+      this.uniqueFileTypes = Array.from(
+        new Set(this.originalSanctions.map((s: any) => s.type))
+      ).filter(type => type); // remove empty/null
+
       this.loading = false;
-    });
-  }
+    },
+    error: (error) => {
+      this.showMessage(
+        error?.error?.message || error?.message || 'Unable to get all sanction entities'
+      );
+      this.loading = false;
+    }
+  });
+}
 
+
+  //search sanctions
+ searchSanctions() {
+  const term = this.searchTerm.toLowerCase().trim();
+  const type = this.selectedFileType.toLowerCase().trim();
+
+  this.sanctions = this.originalSanctions.filter(sanction =>
+    (term
+      ? sanction.name?.toLowerCase().includes(term) ||
+        sanction.aliases?.toLowerCase().includes(term)
+      : true) &&
+    (type
+      ? sanction.type?.toLowerCase() === type
+      : true)
+  );
+
+  this.currentPage = 1;
+}
+
+
+  //messages
   showMessage(msg: string) {
     this.message = msg;
     setTimeout(() => this.message = '', 4000);
   }
 
-  get paginatedHistories(): SanctionedEntity[] {
+  //pagination -start
+  get paginatedSanctions(): SanctionedEntity[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.histories.slice(start, start + this.itemsPerPage);
+    return this.sanctions.slice(start, start + this.itemsPerPage);
   }
 
   get totalPages(): number {
-    return Math.ceil(this.histories.length / this.itemsPerPage);
+    return Math.ceil(this.sanctions.length / this.itemsPerPage);
   }
 
   goToPage(page: number) {
@@ -75,4 +118,5 @@ export class SanctionsComponent implements OnInit {
       this.currentPage = page;
     }
   }
+  //pagination -end
 }
