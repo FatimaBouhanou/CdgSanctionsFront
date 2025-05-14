@@ -1,10 +1,8 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CommonModule } from '@angular/common';
 import { ApiService } from './service/api.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -12,18 +10,24 @@ import { ApiService } from './service/api.service';
   imports: [
     RouterOutlet,
     RouterLink,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'CdgSanctionsFront';
+  isSidebarClosed = false;
 
   constructor(
     private apiService: ApiService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-  ) { }
+  ) {}
 
+  toggleSidebar() {
+    this.isSidebarClosed = !this.isSidebarClosed;
+  }
 }
+
