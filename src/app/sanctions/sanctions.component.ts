@@ -47,12 +47,13 @@ export class SanctionsComponent implements OnInit {
 
   ngOnInit() {
     // Load all sanctions when component initializes
+ 
     this.searchSanctions();
    
   }
 
   //get all sanctions
- getAllSanctions(): void {
+/* getAllSanctions(): void {
   this.loading = true;
   this.apiService.getAllSanctions().subscribe({
     next: (res: any) => {
@@ -75,19 +76,30 @@ export class SanctionsComponent implements OnInit {
       this.loading = false;
     }
   });
-}
+}*/
 
 
   //search sanctions
 searchSanctions() {
-    this.loading = true;
-    this.apiService.getSanctionsByName(this.searchTerm).subscribe(data => {
-      this.sanctions = data;
-      this.originalSanctions = data;
-      this.uniqueSanctions = Array.from(new Set(data.map((e: any) => e.sanctions)));
-      this.loading = false;
-    });
-  }
+  this.loading = true;
+  this.apiService.getSanctionsByName(this.searchTerm).subscribe((data: SanctionedEntity[]) => {
+    // Always update the original list
+    this.originalSanctions = data;
+
+    // Filter by selected file type if one is selected
+    this.sanctions = data.filter((e) =>
+      this.selectedFileType ? e.type === this.selectedFileType : true
+    );
+
+    // Update unique file types for dropdown
+    this.uniqueFileTypes = Array.from(
+      new Set(data.map((e) => e.type))
+    ).filter(Boolean) as string[];
+
+    this.loading = false;
+  });
+}
+
 
 
   //messages
@@ -112,4 +124,17 @@ searchSanctions() {
     }
   }
   //pagination -end
+
+
+  //pop up
+  selectedEntity: SanctionedEntity | null = null;
+
+openDetailsModal(entity: SanctionedEntity) {
+  this.selectedEntity = entity;
+}
+
+closeModal() {
+  this.selectedEntity = null;
+}
+
 }

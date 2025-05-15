@@ -14,13 +14,14 @@
   placeholder="Search by name or aliases"
 />
 
-<select
-  [(ngModel)]="selectedFileType"
-  (ngModelChange)="searchSanctions()"
->
+<select [(ngModel)]="selectedFileType" (ngModelChange)="searchSanctions()">
   <option value="">All Types</option>
   <option *ngFor="let type of uniqueFileTypes" [value]="type">{{ type }}</option>
 </select>
+
+
+
+
 
 
 
@@ -43,18 +44,17 @@
        
       </tr>
     </thead>
-    <tbody>
-      <!-- If there are any sanctions, display them in rows -->
-      <tr *ngFor="let entity of paginatedSanctions">
-        <td>{{ entity.id }}</td>
-        <td>{{ entity.schema }}</td>
-        <td>{{ entity.name }}</td>
-        <td>{{ entity.aliases }}</td>
-        <td>{{ entity.birth_date }}</td>
-        <td>{{ entity.identifiers }}</td>
-       
-      </tr>
-    </tbody>
+   <tbody>
+  <tr *ngFor="let entity of paginatedSanctions" (click)="openDetailsModal(entity)" class="clickable-row">
+    <td>{{ entity.id }}</td>
+    <td>{{ entity.schema }}</td>
+    <td>{{ entity.name }}</td>
+    <td>{{ entity.aliases }}</td>
+    <td>{{ entity.birth_date }}</td>
+    <td>{{ entity.identifiers }}</td>
+  </tr>
+</tbody>
+
   </table>
 </div>
   <!-- If no data is found, show this message, but still display the table layout and pagination -->
@@ -73,4 +73,23 @@
     <span>Page {{ currentPage }} of {{ totalPages }}</span>
     <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
   </div>
+  <!-- Modal Popup -->
+<div class="modal-overlay" *ngIf="selectedEntity">
+  <div class="modal-content">
+    <h2>{{ selectedEntity.name }}</h2>
+  
+    <p><strong>Emails:</strong> {{ selectedEntity.emails }}</p>
+    <p><strong>Phones:</strong> {{ selectedEntity.phones }}</p>
+    <p><strong>Addresses:</strong> {{ selectedEntity.addresses }}</p>
+    <p><strong>Countries:</strong> {{ selectedEntity.countries }}</p>
+    <p><strong>Dataset:</strong> {{ selectedEntity.dataset }}</p>
+    <p><strong>First Seen:</strong> {{ selectedEntity.first_seen }}</p>
+    <p><strong>Last Seen:</strong> {{ selectedEntity.last_seen }}</p>
+    <p><strong>Last Change:</strong> {{ selectedEntity.last_change }}</p>
+    <p><strong>Type:</strong> {{ selectedEntity.type }}</p>
+
+    <button (click)="closeModal()">Close</button>
+  </div>
+</div>
+
 </div>

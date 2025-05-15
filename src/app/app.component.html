@@ -4,16 +4,31 @@
     <button class="toggle-btn" (click)="toggleSidebar()">☰</button>
     <h1 class="ims" *ngIf="!isSidebarClosed">CDG BEP</h1>
     <ul class="nav-links">
-      <li><a routerLink="/home">Home</a></li>
-      <li><a routerLink="/history">Import history</a></li>
-      <li><a routerLink="/sanctions">Recherche</a></li>
-      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>
+        <a routerLink="/home">
+          <i class="fas fa-home"></i> <span *ngIf="!isSidebarClosed">Home</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/history">
+          <i class="fas fa-file-import"></i> <span *ngIf="!isSidebarClosed">Import history</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/sanctions">
+          <i class="fas fa-search"></i> <span *ngIf="!isSidebarClosed">Recherche</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard">
+          <i class="fas fa-chart-pie"></i> <span *ngIf="!isSidebarClosed">Dashboard</span>
+        </a>
+      </li>
     </ul>
   </div>
 
   <!-- Main Content -->
-<div class="main-content" [class.sidebar-closed]="isSidebarClosed">
-  <router-outlet></router-outlet>
-</div>
-
+  <div class="main-content" [class.sidebar-closed]="isSidebarClosed">
+    <router-outlet></router-outlet>
+  </div>
 </div>

@@ -87,3 +87,87 @@
   margin-top: 20px;         /* Adds spacing above the pagination */
   gap: 10px;                /* Space between buttons and text */
 }
+.clickable-row {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.clickable-row:hover {
+  background-color: #f0f0f0;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80%;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h2 {
+  color: #17a2b8;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.modal-content p {
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.modal-content p strong {
+  color: #555;
+  width: 120px;
+  display: inline-block;
+}
+
+.modal-content button {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.modal-content button:hover {
+  background-color: #138496;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.h2 {
+  color: #17a2b8;
+}
