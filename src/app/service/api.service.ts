@@ -1,32 +1,46 @@
+// src/app/service/api.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../environment/environment';
- // Adjust if needed
+import { Sanction } from '../models/sanctions.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private sanctionBaseUrl = environment.sanctionBaseUrl; // http://localhost:8080/api
-  private historyBaseUrl = environment.historyBaseUrl;   // http://localhost:9090/api
+  private sanctionBaseUrl = environment.sanctionBaseUrl;
+  private historyBaseUrl = environment.historyBaseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  // Get list of import history from 9090
   getAllHistory(): Observable<any> {
     return this.http.get(`${this.historyBaseUrl}/import-history/list`);
   }
 
-  // Get sanctions by name from 8080
-  getSanctionsByName(name: string): Observable<any> {
-    return this.http.get(`${this.sanctionBaseUrl}/sanctions/search`, {
-      params: { name }
-    });
-  }
-  getAllSanctions(): Observable<any> {
-    return this.http.get(`${this.sanctionBaseUrl}/sanctions/list`);
+  getAllSanctions(): Observable<Sanction[]> {
+    return this.http.get<Sanction[]>(`${this.sanctionBaseUrl}/sanctions/list`).pipe(
+      catchError(error => this.handleError('Failed to load sanctions', error))
+    );
   }
 
+  searchSanctions(name: string): Observable<any>;
+  searchSanctions(name: string, page: number, size: number): Observable<any>;
+  searchSanctions(name: string, page?: number, size?: number): Observable<any> {
+    const params: any = { name };
+    if (page !== undefined && size !== undefined) {
+      params.page = page.toString();
+      params.size = size.toString();
+    }
+
+    return this.http.get<any>(`${this.sanctionBaseUrl}/sanctions/search`, { params }).pipe(
+      catchError(error => this.handleError('Failed to search sanctions', error))
+    );
+  }
+
+  private handleError(message: string, error: any): Observable<never> {
+    console.error(`${message}:`, error);
+    return throwError(() => new Error(message));
+  }
 }

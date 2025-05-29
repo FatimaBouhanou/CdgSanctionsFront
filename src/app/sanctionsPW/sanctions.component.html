@@ -1,0 +1,94 @@
+<div class="container">
+  <h2>Sanctions List</h2>
+
+ <div class="filters search-container">
+  <input
+    type="text"
+    id="searchTerm"
+    name="searchTerm"
+    [(ngModel)]="searchTerm"
+    (input)="onSearchTermChange()"
+    placeholder="Search by name or alias..."
+    aria-label="Search sanctions"
+    class="search-input"
+  />
+
+  <select
+    id="entityTypeSelect"
+    name="entityTypeSelect"
+    [(ngModel)]="selectedEntityType"
+    (change)="onEntityTypeChange()"
+    aria-label="Filter by entity type"
+    class="file-type-select"
+  >
+    <option value="">All Types</option>
+    <option *ngFor="let type of uniqueEntityTypes; trackBy: trackByType" [value]="type">{{ type }}</option>
+  </select>
+</div>
+
+
+
+  <div *ngIf="loading" class="loading">
+    Loading sanctions...
+  </div>
+
+  <div *ngIf="!loading && paginatedSanctions.length === 0" class="empty-message">
+    No sanctions found.
+  </div>
+
+  <table *ngIf="!loading && paginatedSanctions.length > 0" class="sanctions-table" role="table" aria-label="Sanctions list">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Schema</th>
+        <th>Nom</th>
+        <th>Aliases</th>
+        <th>Date de naissance</th>
+        <th>Identifiers</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sanction of paginatedSanctions" class="clickable-row"
+    (click)="openDetailsModal(sanction)">
+        <td>{{ sanction.id }}</td>
+        <td>{{ sanction.schema }}</td>
+        <td>{{ sanction.name }}</td>
+        <td>{{ sanction.aliases }}</td>
+        <td>{{ sanction.birth_date }}</td>
+        <td>{{ sanction.identifiers }}</td>
+
+        <td>
+          <button (click)="openDetailsModal(sanction)" [attr.aria-label]="'View details for ' + sanction.name">View</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination" *ngIf="totalPages > 1" role="navigation" aria-label="Pagination navigation">
+    <button (click)="goToPage(page - 1)" [disabled]="page === 1" aria-label="Previous page">Prev</button>
+    <span>Page {{ page }} of {{ totalPages }}</span>
+    <button (click)="goToPage(page + 1)" [disabled]="page === totalPages" aria-label="Next page">Next</button>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" *ngIf="selectedEntity" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+  <div class="modal-content">
+    <h3 id="modalTitle">Sanction Details</h3>
+    <p><strong>Emails:</strong> {{ selectedEntity.emails }}</p>
+    <p><strong>Phones:</strong> {{ selectedEntity.phones }}</p>
+    <p><strong>Addresses:</strong> {{ selectedEntity.addresses }}</p>
+    <p><strong>Countries:</strong> {{ selectedEntity.countries }}</p>
+    <p><strong>Dataset:</strong> {{ selectedEntity.dataset }}</p>
+    <p><strong>First Seen:</strong> {{ selectedEntity.first_seen }}</p>
+    <p><strong>Last Seen:</strong> {{ selectedEntity.last_seen }}</p>
+    <p><strong>Last Change:</strong> {{ selectedEntity.last_change }}</p>
+    <p><strong>Type:</strong> {{ selectedEntity.type }}</p>
+    <button (click)="closeModal()" aria-label="Close details modal">Close</button>
+  </div>
+</div>
+
+
+  <!-- Error Message -->
+  <div *ngIf="message" class="error" role="alert">{{ message }}</div>
+</div>

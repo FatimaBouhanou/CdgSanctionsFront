@@ -35,6 +35,10 @@ export class AppComponent {
     this.cdr.detectChanges();
   }, 300); // match transition duration
 }
+showRechercheSubmenu = false;
 
+toggleRechercheSubmenu() {
+  this.showRechercheSubmenu = !this.showRechercheSubmenu;
 }
 
+}

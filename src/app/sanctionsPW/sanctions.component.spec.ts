@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SanctionsComponent } from './sanctions.component';
+import { FormsModule } from '@angular/forms';
 
 describe('SanctionsComponent', () => {
   let component: SanctionsComponent;
@@ -8,7 +9,7 @@ describe('SanctionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SanctionsComponent]
+      imports: [SanctionsComponent,    FormsModule]
     })
     .compileComponents();
 

@@ -88,3 +88,50 @@
   width: 20px;
   text-align: center;
 }
+.has-submenu {
+  .submenu-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .submenu {
+    list-style: none;
+    padding-left: 20px;
+    margin-top: 5px;
+
+    li {
+      padding: 5px 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  }
+
+  .submenu-icon {
+    margin-left: auto;
+    font-size: 0.8rem;
+  }
+}
+.submenu li {
+  position: relative;
+  padding-left: 20px;
+
+  &::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #ccc; // Choose a color that matches your theme
+    font-size: 1.2em;
+    line-height: 1;
+  }
+}
+
+
