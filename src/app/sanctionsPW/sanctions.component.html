@@ -84,7 +84,10 @@
           {{ sanction.aliases && sanction.aliases.length > 20 ? (sanction.aliases.slice(0, 20) + '…') : sanction.aliases }}
         </td>
         <td>{{ sanction.birth_date }}</td>
-        <td>{{ sanction.identifiers }}</td>
+        <td [title]="sanction.identifiers">
+          {{ sanction.identifiers && sanction.identifiers.length > 20 ? (sanction.identifiers.slice(0, 20) + '…') : sanction.identifiers }}
+        </td>
+        
         <td>
           <button class="btnVoir" (click)="openDetailsModal(sanction); $event.stopPropagation()" [attr.aria-label]="'Voir les détails pour ' + sanction.name">
             Voir

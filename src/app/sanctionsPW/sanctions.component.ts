@@ -49,39 +49,40 @@ export class SanctionsComponent implements OnInit {
     }
   }
 
-  searchSanctions(): void {
-    this.loading = true;
-    this.message = '';
+ searchSanctions(): void {
+  this.loading = true;
+  this.message = '';
 
-    const trimmed = this.searchTerm.trim();
+  const trimmed = this.searchTerm.trim();
 
-    const apiCall = trimmed
-      ? this.sanctionService.searchSanctions(trimmed, this.page - 1, this.pageSize)
-      : this.sanctionService.getAllSanctions();
+  const apiCall = trimmed
+    ? this.sanctionService.searchSanctions(trimmed, this.page - 1, this.pageSize)
+    : this.sanctionService.getAllSanctions();
 
-    apiCall.pipe(finalize(() => (this.loading = false))).subscribe({
-      next: (data: any) => {
-        if (trimmed) {
-          this.fullSanctions = data?.content ?? [];
-          this.sanctions = this.fullSanctions;
-          this.totalPages = data?.totalPages ?? 1;
-          this.updatePaginatedSanctions();
-        } else {
-          this.fullSanctions = data;
-          this.extractAllEntityTypes();
-          this.applyFilters();
-        }
-      },
-      error: (err) => {
-        console.error('API error:', err);
-        this.message = 'Erreur lors de la récupération des sanctions.';
-        this.fullSanctions = [];
-        this.totalPages = 1;
+  apiCall.pipe(finalize(() => (this.loading = false))).subscribe({
+    next: (data: any) => {
+      if (trimmed) {
+        this.fullSanctions = data?.content ?? [];
+        this.totalPages = data?.totalPages ?? 1;
+        this.extractAllEntityTypes(); // Optional: update types based on search results
+        this.applyFilters();          // ✅ Apply filters (type + birthDate)
+      } else {
+        this.fullSanctions = data;
         this.extractAllEntityTypes();
-        this.updatePaginatedSanctions();
-      },
-    });
-  }
+        this.applyFilters();
+      }
+    },
+    error: (err) => {
+      console.error('API error:', err);
+      this.message = 'Erreur lors de la récupération des sanctions.';
+      this.fullSanctions = [];
+      this.totalPages = 1;
+      this.extractAllEntityTypes();
+      this.updatePaginatedSanctions();
+    },
+  });
+}
+
 
   private extractAllEntityTypes(): void {
     const types = this.fullSanctions.map((s) => s.type);
@@ -167,4 +168,4 @@ export class SanctionsComponent implements OnInit {
     this.searchPerformed = false;
     this.searchSanctions();
   }
-}
+} 
