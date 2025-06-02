@@ -3,6 +3,7 @@ import { HistoryComponent } from './history/history.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { SanctionsComponent } from './sanctionsPW/sanctions.component';
+import { SecuritiesComponent } from './sanctions-s/sanctions-s.component';
 
 
 
@@ -17,10 +18,10 @@ export const routes: Routes = [
   path: 'sanctions/peps',
   component: SanctionsComponent
 },
- /*{
+{
  path: 'sanctions/securities',
-  component: SanctionsSComponent
-},*/
+  component: SecuritiesComponent
+},
 
 
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, 
