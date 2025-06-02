@@ -2,33 +2,39 @@
   <!-- Sidebar -->
   <div class="sidebar" [class.closed]="isSidebarClosed">
     <button class="toggle-btn" (click)="toggleSidebar()">☰</button>
-    <h1 class="ims" *ngIf="!isSidebarClosed">CDG BEP</h1>
+    <br> <br>
+     <!-- Logo -->
+  <div class="sidebar-logo">
+    <img src="https://www.rekrute.com/rekrute/file/jobOfferLogo/jobOfferId/44185" alt="Logo" />
+  </div>
+
+    <h1 class="ims" *ngIf="!isSidebarClosed"></h1>
     <ul class="nav-links">
       <li>
         <a routerLink="/home">
-          <i class="fas fa-home"></i> <span *ngIf="!isSidebarClosed">Home</span>
+          <i class="fas fa-home"></i> <span *ngIf="!isSidebarClosed">Accueil</span>
         </a>
       </li>
       <li>
         <a routerLink="/history">
-          <i class="fas fa-file-import"></i> <span *ngIf="!isSidebarClosed">Import history</span>
+          <i class="fas fa-file-import"></i> <span *ngIf="!isSidebarClosed">Historique des imports</span>
         </a>
       </li>
       <li class="has-submenu">
-  <div class="submenu-title" (click)="toggleRechercheSubmenu()">
-    <i class="fas fa-search"></i> 
-    <span *ngIf="!isSidebarClosed">Recherche</span>
-    <i class="fas fa-chevron-down submenu-icon" *ngIf="!isSidebarClosed"></i>
-  </div>
-  <ul class="submenu" *ngIf="showRechercheSubmenu && !isSidebarClosed">
-    <li><a routerLink="/sanctions/peps">PEPs and Warrants</a></li>
-    <li><a routerLink="/sanctions/securities">Securities</a></li>
-  </ul>
-</li>
+        <div class="submenu-title" (click)="toggleRechercheSubmenu()">
+          <i class="fas fa-search"></i> 
+          <span *ngIf="!isSidebarClosed">Recherche</span>
+          <i class="fas fa-chevron-down submenu-icon" *ngIf="!isSidebarClosed"></i>
+        </div>
+        <ul class="submenu" *ngIf="showRechercheSubmenu && !isSidebarClosed">
+          <li><a routerLink="/sanctions/peps">PEPs et Mandats d'arrêt</a></li>
+          <li><a routerLink="/sanctions/securities">Titres</a></li>
+        </ul>
+      </li>
 
       <li>
         <a routerLink="/dashboard">
-          <i class="fas fa-chart-pie"></i> <span *ngIf="!isSidebarClosed">Dashboard</span>
+          <i class="fas fa-chart-pie"></i> <span *ngIf="!isSidebarClosed">Tableau de bord</span>
         </a>
       </li>
     </ul>

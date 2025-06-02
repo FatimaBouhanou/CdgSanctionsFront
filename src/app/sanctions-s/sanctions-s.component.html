@@ -25,33 +25,6 @@
     No securities found.
   </div>
 
-  <table *ngIf="!loading && paginatedSecurities.length > 0" class="sanctions-table" role="table" aria-label="Securities list">
-    <thead>
-      <tr>
-        <th>Caption</th>
-      <th>LEI</th>
-      <th>RIC</th>
-      <th>Aliases</th>
-      <th>Countries</th>
-      <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let security of paginatedSecurities" class="clickable-row" (click)="openDetailsModal(security)">
-        <td>{{ security.caption }}</td>
-      <td>{{ security.lei }}</td>
-      <td>{{ security.ric }}</td>
-<td [title]="security.aliases">{{security.aliases && security.aliases.length > 20
-      ? (security.aliases.slice(0, 20) + '…'): security.aliases}}</td>
-
-
-      <td>{{ security.countries }}</td>
-        <td>
-          <button (click)="openDetailsModal(security)" [attr.aria-label]="'View details for ' + security.lei">View</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 
   <div class="pagination" *ngIf="totalPages >= 1" role="navigation">
     <button (click)="goToPage(page - 1)" [disabled]="page === 1" aria-label="Previous page">Prev</button>

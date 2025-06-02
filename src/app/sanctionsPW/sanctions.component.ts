@@ -17,11 +17,13 @@ export class SanctionsComponent implements OnInit {
   selectedEntityType: string = '';
   fullSanctions: Sanction[] = [];
   sanctions: Sanction[] = [];
-  allEntityTypes: string[] = []; // All known types
+  allEntityTypes: string[] = [];
   paginatedSanctions: Sanction[] = [];
+  birthDateFilter: string = '';
 
   loading: boolean = false;
   message: string = '';
+  searchPerformed: boolean = false;
 
   page: number = 1;
   pageSize: number = 10;
@@ -32,12 +34,7 @@ export class SanctionsComponent implements OnInit {
   constructor(private sanctionService: ApiService) {}
 
   ngOnInit(): void {
-    this.searchSanctions();
-  }
-
-  onSearchTermChange(): void {
-    this.page = 1;
-    this.searchSanctions();
+    // No initial search; wait for user to click "Rechercher"
   }
 
   onEntityTypeChange(): void {
@@ -71,23 +68,23 @@ export class SanctionsComponent implements OnInit {
           this.updatePaginatedSanctions();
         } else {
           this.fullSanctions = data;
-          this.extractAllEntityTypes(); // ✅ update all types from full data
+          this.extractAllEntityTypes();
           this.applyFilters();
         }
       },
       error: (err) => {
         console.error('API error:', err);
-        this.message = 'Error fetching sanctions.';
+        this.message = 'Erreur lors de la récupération des sanctions.';
         this.fullSanctions = [];
         this.totalPages = 1;
-        this.extractAllEntityTypes(); // Still try to extract types if error
+        this.extractAllEntityTypes();
         this.updatePaginatedSanctions();
-      }
+      },
     });
   }
 
   private extractAllEntityTypes(): void {
-    const types = this.fullSanctions.map(s => s.type);
+    const types = this.fullSanctions.map((s) => s.type);
     this.allEntityTypes = [...new Set(types)].filter(Boolean);
   }
 
@@ -96,9 +93,23 @@ export class SanctionsComponent implements OnInit {
   }
 
   private applyFilters(): void {
-    this.sanctions = this.selectedEntityType
-      ? this.fullSanctions.filter(s => s.type === this.selectedEntityType)
-      : this.fullSanctions;
+    this.sanctions = this.fullSanctions.filter((s) => {
+      const matchesType = this.selectedEntityType ? s.type === this.selectedEntityType : true;
+
+      let matchesBirthDate = true;
+      if (this.birthDateFilter) {
+        const filterDate = this.birthDateFilter;
+        let sanctionDate = '';
+
+        if (s.birth_date) {
+          sanctionDate = s.birth_date.length > 10 ? s.birth_date.substring(0, 10) : s.birth_date;
+        }
+
+        matchesBirthDate = sanctionDate === filterDate;
+      }
+
+      return matchesType && matchesBirthDate;
+    });
 
     this.totalPages = Math.ceil(this.sanctions.length / this.pageSize);
     if (this.totalPages === 0) this.totalPages = 1;
@@ -109,7 +120,7 @@ export class SanctionsComponent implements OnInit {
 
   updatePaginatedSanctions(): void {
     if (this.searchTerm.trim()) {
-      this.paginatedSanctions = this.sanctions; // already backend paginated
+      this.paginatedSanctions = this.sanctions;
     } else {
       const startIndex = (this.page - 1) * this.pageSize;
       const endIndex = startIndex + this.pageSize;
@@ -123,5 +134,37 @@ export class SanctionsComponent implements OnInit {
 
   closeModal(): void {
     this.selectedEntity = null;
+  }
+
+  onSearchClick(): void {
+    this.page = 1;
+    this.searchPerformed = true;
+    if (!this.searchTerm.trim()) {
+      this.selectedEntityType = '';
+    }
+    this.searchSanctions();
+  }
+
+  onInputChange(): void {
+    if (!this.searchTerm.trim()) {
+      this.page = 1;
+      this.selectedEntityType = '';
+      this.searchPerformed = false;
+      this.searchSanctions();
+    }
+  }
+
+  onBirthDateChange(): void {
+    this.page = 1;
+    this.applyFilters();
+  }
+
+  clearFilters(): void {
+    this.searchTerm = '';
+    this.selectedEntityType = '';
+    this.birthDateFilter = '';
+    this.page = 1;
+    this.searchPerformed = false;
+    this.searchSanctions();
   }
 }

@@ -50,7 +50,7 @@
 }
 
 .sanctions-table th {
-  background-color: #17a2b8;
+  background-color: #668d2673;
   color: white;
 }
 
@@ -122,7 +122,7 @@
 }
 
 .modal-content h2 {
-  color: #17a2b8;
+  color: #658D26;
   font-size: 24px;
   margin-bottom: 20px;
 }
@@ -141,7 +141,7 @@
 }
 
 .modal-content button {
-  background-color: #17a2b8;
+  background-color: #658D26;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -153,7 +153,7 @@
 }
 
 .modal-content button:hover {
-  background-color: #138496;
+  background-color: #658D26;
 }
 
 
@@ -169,7 +169,7 @@
 }
 
 .container h2 {
-  color: #17a2b8;
+  color: #658D26;
 }
 
 /* Container holding search + filter aligned */
@@ -186,7 +186,7 @@
   width: 300px;
   padding: 10px 12px;
   font-size: 16px;
-  border: 2px solid #17a2b8;  /* teal border */
+  border: 2px solid #658D26;  /* teal border */
   border-radius: 6px;
   transition: border-color 0.3s ease;
   outline: none;
@@ -202,7 +202,7 @@
   width: 180px;
   padding: 10px 12px;
   font-size: 16px;
-  border: 2px solid #17a2b8;
+  border: 2px solid #658D26;
   border-radius: 6px;
   background-color: white;
   cursor: pointer;
@@ -210,6 +210,64 @@
 }
 
 .file-type-select:focus {
-  border-color: #0f7580;
+  border-color: #658D26;
   box-shadow: 0 0 5px rgba(23, 162, 184, 0.7);
 }
+.birth-date-filter {
+  width: 180px;             
+  padding: 10px 12px;       
+  font-size: 16px;          
+  border: 2px solid #658D26; 
+  border-radius: 6px;       
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
+
+.birth-date-filter:focus {
+  border-color: #658D26;    
+  box-shadow: 0 0 5px rgba(23, 162, 184, 0.7);
+}
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px; /* or 100vh if it's full page */
+  color: #658D26;
+  font-size: 18px;
+  font-weight: bold;
+  gap: 15px;
+}
+
+/* Spinner Animation */
+.spinner {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid #658D26; /* Teal */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+/* Spin Keyframe */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+button {
+  background-color: #668d26eb !important;
+  color: white !important;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #4f6f1a; 
+}
+
